@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: Config
+build:
+  artifacts:
+  - image: changeme
+    context: .
+    docker: {}
+  tagPolicy:
+    envTemplate:
+      template: '{{.DOCKER_REGISTRY}}/escoem-oss/sample-jenkins-plugin-folder:{{.VERSION}}'
+  local: {}
+deploy:
+  kubectl: {}
+profiles:
+- name: dev
+  build:
+    artifacts:
+    - docker: {}
+    tagPolicy:
+      envTemplate:
+        template: '{{.DOCKER_REGISTRY}}/escoem-oss/sample-jenkins-plugin-folder:{{.DIGEST_HEX}}'
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: sample-jenkins-plugin-folder
+        chartPath: charts/sample-jenkins-plugin-folder
+        setValueTemplates:
+          image.repository: '{{.DOCKER_REGISTRY}}/escoem-oss/sample-jenkins-plugin-folder'
+          image.tag: '{{.DIGEST_HEX}}'
