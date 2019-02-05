@@ -26,7 +26,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        git 'https://github.com/escoem-oss/sample-jenkins-plugin-folder.git'
+        git 'https://github.com/escoem-oss/sample-jenkins-plugin.git'
 
         // so we can retrieve the version in later steps
         sh "echo \$(jx-release-version) > VERSION"
