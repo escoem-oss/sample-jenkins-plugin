@@ -16,26 +16,23 @@ pipeline {
         HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
       }
       steps {
-        container('maven') {
-          sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
-          sh "mvn install"
-        }
+        sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
+        sh "mvn install"
       }
     }
+    
     stage('Build Release') {
       when {
         branch 'master'
       }
       steps {
-        container('maven') {
-          git 'https://github.com/escoem-oss/sample-jenkins-plugin-folder.git'
+        git 'https://github.com/escoem-oss/sample-jenkins-plugin-folder.git'
 
-          // so we can retrieve the version in later steps
-          sh "echo \$(jx-release-version) > VERSION"
-          sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
-          sh "jx step tag --version \$(cat VERSION)"
-          //sh "mvn clean deploy"
-        }
+        // so we can retrieve the version in later steps
+        sh "echo \$(jx-release-version) > VERSION"
+        sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
+        sh "jx step tag --version \$(cat VERSION)"
+        //sh "mvn clean deploy"
       }
     }
   }
