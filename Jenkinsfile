@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+    label 'jenkins-maven'
+  }
   environment {
     ORG = 'escoem-oss'
     APP_NAME = 'sample-jenkins-plugin-folder'
