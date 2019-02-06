@@ -196,8 +196,6 @@ public final class JobImportAction implements RootAction, Describable<JobImportA
         remoteJobsImportStatus.put(remoteJob, new RemoteItemImportStatus(remoteJob));
       }
 
-      // ---
-
       if (!update && StringUtils.isNotEmpty(localPath) && Jenkins.get().getItemByFullName(localPath + remoteJob.getName()) != null) {
         remoteJobsImportStatus.get(remoteJob).setStatus(MessagesUtils.formatFailedDuplicateJobName());
       } else if (!update && StringUtils.isEmpty(localPath) && Jenkins.get().getItem(remoteJob.getName()) != null) {
